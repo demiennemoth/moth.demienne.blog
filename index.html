@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My 95 Homepage — блог</title>
-<meta name="description" content="Полноразмерный сайт в стиле Windows 95: титульная панель, меню, левое навигационное дерево и список постов как в Explorer.">
+<title>My 95 Homepage — философия</title>
+<meta name="description" content="Философский сайт в стиле Windows 95: титульная панель, меню, левое навигационное дерево со статьями и окно просмотра.">
 <meta name="theme-color" content="#c0c0c0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23c0c0c0'/%3E%3Crect x='10' y='12' width='44' height='10' fill='%23000080'/%3E%3Crect x='10' y='26' width='44' height='26' fill='%23ffffff' stroke='%23808080'/%3E%3C/svg%3E">
 <style>
@@ -46,6 +46,14 @@
     border:1px solid #000;
     box-shadow: inset 1px 1px 0 rgba(255,255,255,.25);
   }
+  .title-actions{ display:flex; gap:6px; align-items:center }
+  .btn95{
+    display:inline-flex; align-items:center; gap:4px; padding:2px 8px; background:var(--face);
+    border-top:2px solid var(--lite); border-left:2px solid var(--lite);
+    border-right:2px solid var(--shadow); border-bottom:2px solid var(--shadow);
+    color:#000; text-decoration:none; font-weight:normal; font-size:12px;
+    cursor:pointer;
+  }
   .menubar{
     display:flex; gap:14px; padding:4px 8px; background:var(--face);
     border-top:1px solid var(--lite); border-bottom:1px solid var(--shadow);
@@ -67,6 +75,7 @@
   }
   .nav a{ display:block; padding:3px 4px; color:#000; text-decoration:none }
   .nav a.active, .nav a:focus{ background:#000080; color:#fff }
+  .nav .folder{ margin:6px 0 2px; font-weight:bold }
   .vspace{ height:10px }
   .list{
     background:#fff; border:1px solid var(--shadow); padding:0;
@@ -99,6 +108,13 @@
     display:flex; justify-content:space-between; gap:12px; padding:3px 8px; background:var(--face);
     border-top:1px solid var(--shadow);
   }
+  /* Modal */
+  .modal { position: fixed; inset:0; background: rgba(0,0,0,.35); display:none; align-items:center; justify-content:center; }
+  .modal .window { background:#fff; border:1px solid var(--shadow); box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite); width: 320px; }
+  .modal .title { background:var(--title); color:#fff; padding:6px 8px; font-weight:bold }
+  .modal .content { padding:10px }
+  .modal .content label{display:block; margin:6px 0 2px}
+  .modal .content input{ width:100%; padding:4px; border:1px solid #808080 }
 </style>
 </head>
 <body>
@@ -106,19 +122,21 @@
     <div class="titlebar">
       <div class="title-left">
         <span class="title-icon" aria-hidden="true"></span>
-        <span>My 95 Homepage</span>
+        <span>My 95 Homepage — ФИЛОСОФИЯ</span>
       </div>
-      <div id="time" style="font-weight:normal">--:--</div>
+      <div class="title-actions">
+        <button id="btn-admin" class="btn95" title="Вход в админку">🛠 Вход</button>
+        <button id="btn-logout" class="btn95" title="Выйти" hidden>⎋ Выйти</button>
+        <div id="time" style="font-weight:normal; margin-left:8px;">--:--</div>
+      </div>
     </div>
     <nav class="menubar" aria-label="Меню">
       <a href="#home" data-nav class="active"><u>Г</u>лавная</a>
-      <a href="#posts" data-nav><u>З</u>аписи</a>
-      <a href="#about" data-nav><u>О</u>бо мне</a>
       <a href="#contact" data-nav><u>С</u>вязь</a>
       <a href="#help" data-nav><u>С</u>правка</a>
     </nav>
     <div class="banner">
-      <marquee behavior="scroll" direction="left" scrollamount="3">Добро пожаловать! Обновлено: 27.08.2025 • Клик по имени файла открывает запись.</marquee>
+      <marquee behavior="scroll" direction="left" scrollamount="3">Добро пожаловать! Проект: quantum-thoughts • Клик по названию открывает статью • Админка доступна только для владельца.</marquee>
     </div>
   </header>
 
@@ -127,21 +145,14 @@
       <aside>
         <div class="group">
           <div class="legend">Навигация</div>
-          <div class="nav">
-            <a href="#home" data-nav class="active">🏠 Главная</a>
-            <a href="#posts" data-nav>📝 Записи</a>
-            <a href="#about" data-nav>👤 Обо мне</a>
-            <a href="#contact" data-nav>✉️ Контакты</a>
+          <div class="nav" id="left-nav">
+            <!-- Сюда рендерятся категории и статьи из Firestore -->
           </div>
         </div>
         <div class="vspace"></div>
-        <div class="group">
+        <div class="group" hidden id="recent-box">
           <div class="legend">Последние</div>
-          <ul style="margin:0; padding-left:18px">
-            <li><a href="#post-stair">Ночная лестница</a></li>
-            <li><a href="#post-wax">Свеча и пробел</a></li>
-            <li><a href="#post-black">Чёрный — дисциплина</a></li>
-          </ul>
+          <ul id="recent" style="margin:0; padding-left:18px"></ul>
         </div>
       </aside>
 
@@ -149,55 +160,48 @@
         <section id="posts-list" class="list" aria-label="Список записей">
           <table class="files">
             <thead class="thead"><tr><th></th><th>Имя</th><th>Изменён</th><th>Тип</th><th>Размер</th></tr></thead>
-            <tbody>
-              <tr class="row">
-                <td class="icon-cell"><span class="ico-doc" aria-hidden="true"></span></td>
-                <td><a href="#post-stair">stair.txt</a></td>
-                <td>25.08.2025 23:12</td>
-                <td>Текстовый документ</td>
-                <td>1 КБ</td>
-              </tr>
-              <tr class="row">
-                <td class="icon-cell"><span class="ico-doc" aria-hidden="true"></span></td>
-                <td><a href="#post-wax">wax.txt</a></td>
-                <td>19.08.2025 02:31</td>
-                <td>Текстовый документ</td>
-                <td>1 КБ</td>
-              </tr>
-              <tr class="row">
-                <td class="icon-cell"><span class="ico-doc" aria-hidden="true"></span></td>
-                <td><a href="#post-black">black.txt</a></td>
-                <td>12.08.2025 18:47</td>
-                <td>Текстовый документ</td>
-                <td>1 КБ</td>
-              </tr>
+            <tbody id="files-body">
+              <!-- строки файлов приходят из Firestore -->
             </tbody>
           </table>
         </section>
 
         <section id="article" class="article" hidden>
           <div class="toolbar">
-            <a href="#posts" class="tool" style="text-decoration:none">← Назад</a>
+            <a href="#home" class="tool" style="text-decoration:none" data-back>← Назад</a>
             <div class="tool">Файл</div><div class="tool">Правка</div><div class="tool">Формат</div><div class="tool">Справка</div>
           </div>
           <div class="pad" id="pad"></div>
           <div class="statusbar"><span id="status-left">Готово</span><span id="status-right">Строка 1, Столбец 1</span></div>
         </section>
 
-        <section id="about-panel" class="group" hidden>
-          <div class="legend">Обо мне</div>
-          <p>Пишу ночные тексты, люблю чёрный, пост‑панк и ретро‑интерфейсы. Сайт — привет из 95‑го.</p>
-        </section>
-
         <section id="contact-panel" class="group" hidden>
-          <div class="legend">Контакты</div>
-          <p>Почта: <a href="mailto:you@example.com">you@example.com</a><br>Телеграм: <a href="https://t.me/yourname" target="_blank" rel="noopener">t.me/yourname</a></p>
+          <div class="legend">Связь</div>
+          <p>Почта администратора: <a href="mailto:demienne.moth@gmail.com">demienne.moth@gmail.com</a></p>
         </section>
 
         <section id="help-panel" class="group" hidden>
           <div class="legend">Справка</div>
-          <p>Клик по имени файла открывает запись в «блокноте». Кнопка «Назад» вернёт к списку. Навигация слева — как в старых «Папках».</p>
+          <p>В левой панели — список статей по категориям. Клик по названию открывает статью в «блокноте». Кнопка «Вход» в заголовке открывает окно авторизации администратора.</p>
         </section>
+
+        <!-- Админ-панель -->
+        <section id="admin-panel" class="group" hidden>
+          <div class="legend">Админка</div>
+          <form id="add-form">
+            <label>Категория</label>
+            <input name="category" placeholder="Напр.: Философия, Космология, Идеи" required>
+            <label>Заголовок</label>
+            <input name="title" placeholder="Заголовок статьи" required>
+            <label>Текст</label>
+            <textarea name="content" rows="10" placeholder="Текст статьи (поддерживается обычный текст)" required></textarea>
+            <div style="margin-top:8px; display:flex; gap:8px;">
+              <button class="btn95" type="submit">💾 Сохранить</button>
+              <button class="btn95" type="button" id="btn-clear">Очистить</button>
+            </div>
+          </form>
+        </section>
+
       </main>
     </div>
   </div>
@@ -208,68 +212,213 @@
     </div>
   </footer>
 
-<script>
+  <!-- Модалка входа -->
+  <div id="login-modal" class="modal" aria-hidden="true">
+    <div class="window">
+      <div class="title">Вход администратора</div>
+      <div class="content">
+        <form id="login-form">
+          <label>Email</label>
+          <input type="email" name="email" value="demienne.moth@gmail.com" required>
+          <label>Пароль</label>
+          <input type="password" name="password" required>
+          <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end">
+            <button class="btn95" type="button" id="login-cancel">Отмена</button>
+            <button class="btn95" type="submit">Войти</button>
+          </div>
+        </form>
+        <div id="login-error" style="color:#a00; margin-top:6px; display:none"></div>
+      </div>
+    </div>
+  </div>
+
+<script type="module">
+  // Часы
   const timeEl = document.getElementById('time');
   function clock(){ const d=new Date(); timeEl.textContent = d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); }
   setInterval(clock, 1000); clock();
 
+  // Разделы страницы
   const sections = {
     posts: document.getElementById('posts-list'),
     article: document.getElementById('article'),
-    about: document.getElementById('about-panel'),
     contact: document.getElementById('contact-panel'),
-    help: document.getElementById('help-panel')
+    help: document.getElementById('help-panel'),
+    admin: document.getElementById('admin-panel')
   };
   const pad = document.getElementById('pad');
   const pathEl = document.getElementById('path');
-
-  const posts = {
-    '#post-stair': `Там, где бетон мокрый, мысли чище.
-
-Ночью лестница звучит как орган: провода гудят, лифт вздыхает, окно дрожит. В такой акустике слова не хотят казаться — только быть.`,
-    '#post-wax': `Свеча, которая капала на клавиатуру.
-
-Каждая капля — как точка. Текст учится дышать реже, но глубже. Скупо — значит честно.`,
-    '#post-black': `Чёрный как дисциплина, не как траур.
-
-Чёрный собирает форму и делает лишние жесты невозможными. В этом цвете слово слышно громче.`
-  };
+  const leftNav = document.getElementById('left-nav');
+  const filesBody = document.getElementById('files-body');
+  const recentBox = document.getElementById('recent-box');
+  const recentList = document.getElementById('recent');
 
   function showOnly(names){
     for (const key in sections){
-    sections[key].hidden = !names.includes(key);
+      sections[key].hidden = !names.includes(key);
     }
+  }
+
+  function openArticle(docId, data){
+    showOnly(['article']);
+    pad.textContent = data.content || '';
+    document.getElementById('status-left').textContent = data.title;
+    pathEl.textContent = 'C:\\\\Home\\\\Posts\\\\' + (docId || 'untitled') + '.txt';
+    location.hash = '#post-' + docId;
   }
 
   function route(){
     const h = location.hash || '#home';
     document.querySelectorAll('[data-nav]').forEach(n => n.classList.remove('active'));
-    const nav = document.querySelector(`[data-nav][href="${h.startsWith('#post-') ? '#posts' : h}"]`);
+    const nav = document.querySelector(`[data-nav][href="${h.startsWith('#post-') ? '#home' : h}"]`);
     if(nav) nav.classList.add('active');
 
-    if(h === '#home' || h === '#posts'){
-      showOnly(['posts']); pathEl.textContent = 'C:\\\\Home\\\\Posts\\'; return;
-    }
-    if(h === '#about'){
-      showOnly(['about']); pathEl.textContent = 'C:\\\\Home\\\\About\\'; return;
-    }
-    if(h === '#contact'){
-      showOnly(['contact']); pathEl.textContent = 'C:\\\\Home\\\\Contact\\'; return;
-    }
-    if(h === '#help'){
-      showOnly(['help']); pathEl.textContent = 'C:\\\\Home\\\\Help\\'; return;
-    }
-    if(posts[h]){
-      showOnly(['article']);
-      pad.textContent = posts[h];
-      pathEl.textContent = 'C:\\\\Home\\\\Posts\\\\' + h.replace('#post-','') + '.txt';
-      return;
-    }
+    if(h === '#home'){ showOnly(['posts']); pathEl.textContent = 'C:\\\\Home\\\\Posts\\'; return; }
+    if(h === '#contact'){ showOnly(['contact']); pathEl.textContent = 'C:\\\\Home\\\\Contact\\'; return; }
+    if(h === '#help'){ showOnly(['help']); pathEl.textContent = 'C:\\\\Home\\\\Help\\'; return; }
     showOnly(['posts']);
   }
+  window.addEventListener('hashchange', route); route();
 
-  window.addEventListener('hashchange', route);
-  route();
+  // ===== Firebase =====
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+  import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC1ssvZnv2Jd8c5SlFRqPqc0SYt7iPvnm4",
+    authDomain: "quantum-thoughts.firebaseapp.com",
+    projectId: "quantum-thoughts",
+    storageBucket: "quantum-thoughts.firebasestorage.app",
+    messagingSenderId: "174553420596",
+    appId: "1:174553420596:web:9cc3a0f2bb04c6885b8b61"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const POSTS = collection(db, 'blogPosts');
+
+  // Рендер статей из Firestore в левую панель и таблицу
+  function bytesFromString(s){ return new Blob([s || '']).size; }
+  function formatSize(b){
+    if (b < 1024) return b + ' Б';
+    if (b < 1024*1024) return Math.round(b/1024) + ' КБ';
+    return (b/1024/1024).toFixed(1) + ' МБ';
+  }
+  function formatDate(ts){
+    const d = ts?.toDate ? ts.toDate() : new Date();
+    const pad = n => String(n).padStart(2,'0');
+    return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  const unsub = onSnapshot(query(POSTS, orderBy('created', 'desc')), (snap)=>{
+    // Группируем по категориям
+    const groups = {};
+    filesBody.innerHTML = '';
+    leftNav.innerHTML = '';
+    recentList.innerHTML = '';
+    let recentCount = 0;
+
+    snap.forEach(doc=>{
+      const data = doc.data();
+      const cat = (data.category || 'Прочее').trim();
+      (groups[cat] ||= []).push({ id: doc.id, ...data });
+
+      // таблица файлов
+      const tr = document.createElement('tr');
+      tr.className = 'row';
+      tr.innerHTML = `<td class="icon-cell"><span class="ico-doc" aria-hidden="true"></span></td>
+        <td><a href="#post-${doc.id}">${(data.title || 'Без названия')}.txt</a></td>
+        <td>${formatDate(data.created)}</td>
+        <td>Текстовый документ</td>
+        <td>${formatSize(bytesFromString(data.content))}</td>`;
+      tr.querySelector('a').addEventListener('click', (e)=>{ e.preventDefault(); openArticle(doc.id, data); });
+      filesBody.appendChild(tr);
+
+      if (recentCount < 5){
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#post-' + doc.id;
+        a.textContent = data.title || 'Без названия';
+        a.addEventListener('click', (e)=>{ e.preventDefault(); openArticle(doc.id, data); });
+        li.appendChild(a);
+        recentList.appendChild(li);
+        recentCount++;
+      }
+    });
+
+    recentBox.hidden = recentCount === 0;
+
+    // Левое дерево
+    Object.keys(groups).sort().forEach(cat=>{
+      const label = document.createElement('div');
+      label.className = 'folder';
+      label.textContent = '📂 ' + cat;
+      leftNav.appendChild(label);
+
+      groups[cat].forEach(p=>{
+        const a = document.createElement('a');
+        a.href = '#post-' + p.id;
+        a.textContent = '— ' + (p.title || 'Без названия');
+        a.addEventListener('click', (e)=>{ e.preventDefault(); openArticle(p.id, p); });
+        leftNav.appendChild(a);
+      });
+    });
+  });
+
+  // ===== Админка: вход / выход / права =====
+  const btnAdmin = document.getElementById('btn-admin');
+  const btnLogout = document.getElementById('btn-logout');
+  const loginModal = document.getElementById('login-modal');
+  const loginCancel = document.getElementById('login-cancel');
+  const loginForm = document.getElementById('login-form');
+  const loginError = document.getElementById('login-error');
+
+  btnAdmin.addEventListener('click', ()=>{ loginModal.style.display = 'flex'; loginError.style.display = 'none'; });
+  loginCancel.addEventListener('click', ()=>{ loginModal.style.display = 'none'; });
+  loginForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const email = e.target.email.value.trim();
+    const password = e.target.password.value;
+    try{
+      await signInWithEmailAndPassword(auth, email, password);
+      loginModal.style.display = 'none';
+    }catch(err){
+      loginError.textContent = 'Ошибка входа: ' + (err?.message || err);
+      loginError.style.display = 'block';
+    }
+  });
+  btnLogout.addEventListener('click', ()=> signOut(auth));
+
+  const addForm = document.getElementById('add-form');
+  const btnClear = document.getElementById('btn-clear');
+
+  onAuthStateChanged(auth, (user)=>{
+    const isAdmin = !!user && user.email === 'demienne.moth@gmail.com';
+    sections.admin.hidden = !isAdmin;
+    btnLogout.hidden = !isAdmin;
+    btnAdmin.hidden = isAdmin;
+  });
+
+  addForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(addForm);
+    const data = {
+      category: fd.get('category').toString(),
+      title: fd.get('title').toString(),
+      content: fd.get('content').toString(),
+      created: serverTimestamp()
+    };
+    try{
+      await addDoc(POSTS, data);
+      addForm.reset();
+      alert('Сохранено.');
+    }catch(err){
+      alert('Ошибка: ' + (err?.message || err));
+    }
+  });
+  btnClear.addEventListener('click', ()=> addForm.reset());
 </script>
 </body>
 </html>
