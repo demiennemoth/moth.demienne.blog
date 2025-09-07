@@ -284,10 +284,10 @@
     const nav = document.querySelector(`[data-nav][href="${h.startsWith('#post-') ? '#home' : h}"]`);
     if(nav) nav.classList.add('active');
 
-    if(h === '#home'){ showOnly(['posts']); pathEl.textContent = 'C:\Home\Posts\'; return; }
-    if(h === '#contact'){ showOnly(['contact']); pathEl.textContent = 'C:\Home\Contact\'; return; }
-    if(h === '#help'){ showOnly(['help']); pathEl.textContent = 'C:\Home\Help\'; return; }
-    if(h === '#admin'){ showOnly(['admin']); pathEl.textContent = 'C:\Home\Admin\'; return; }
+    if(h === '#home'){ showOnly(['posts']); pathEl.textContent = 'C:\\Home\\Posts\\'; return; }
+    if(h === '#contact'){ showOnly(['contact']); pathEl.textContent = 'C:\\Home\\Contact\\'; return; }
+    if(h === '#help'){ showOnly(['help']); pathEl.textContent = 'C:\\Home\\Help\\'; return; }
+    if(h === '#admin'){ showOnly(['admin']); pathEl.textContent = 'C:\\Home\\Admin\\'; return; }
     showOnly(['posts']);
   }
   window.addEventListener('hashchange', route); route();
