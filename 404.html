@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="ru">
+<head>
+
+  <!-- === SEO additions (path routing ready) === -->
+  <base href="/moth.demienne.blog/">
+  <link rel="canonical" href="https://demiennemoth.github.io/moth.demienne.blog/">
+
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="robots" content="index,follow">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Философия Моли">
+  <meta property="og:description" content="Мысли, теории и рассуждения о бытии.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://demiennemoth.github.io/moth.demienne.blog/">
+  <meta property="og:image" content="icons/icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Философия Моли">
+  <meta name="twitter:description" content="Мысли, теории и рассуждения о бытии.">
+  <meta name="twitter:image" content="icons/icon-512.png">
+
+  <!-- Вставь сюда метатег Search Console при желании -->
+  <!-- <meta name="google-site-verification" content="PASTE_TOKEN_HERE"> -->
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Философия Моли",
+    "url": "https://demiennemoth.github.io/moth.demienne.blog/"
+  }
+  </script>
+  <!-- === /SEO additions === -->
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Философия Моли</title>
+<meta name="description" content="Философия Моли — теории, мысли, философия, рассуждения о бытии в стиле Windows 95.">
+<meta name="theme-color" content="#c0c0c0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23c0c0c0'/%3E%3Crect x='10' y='12' width='44' height='10' fill='%23000080'/%3E%3Crect x='10' y='26' width='44' height='26' fill='%23ffffff' stroke='%23808080'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --desktop:#c0c0c0;
+    --win:#ffffff;
+    --text:#000000;
+    --title:#000080;
+    --shadow:#808080;
+    --dark:#000000;
+    --lite:#ffffff;
+    --face:#c0c0c0;
+    --link:#0000ee;
+    --visited:#551a8b;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--desktop);
+    color:var(--text);
+    font:14px/1.4 "MS Sans Serif", Tahoma, Verdana, Segoe UI, Arial, sans-serif;
+    -webkit-font-smoothing: none; -moz-osx-font-smoothing: grayscale;
+  }
+  a{color:var(--link); text-decoration: underline}
+  a:visited{color:var(--visited)}
+  .container{ width: min(1080px, 96vw); margin: 12px auto 24px; }
+  header.site{ margin-bottom:8px }
+  .titlebar{
+    display:flex; align-items:center; justify-content:space-between; gap:6px;
+    height: 28px; padding:4px 8px;
+    background: var(--title);
+    color:#fff; font-weight:bold;
+  }
+  .title-left{ display:flex; align-items:center; gap:8px }
+  .title-icon{
+    width:18px; height:18px; display:inline-block;
+    background: linear-gradient(#000080, #000040);
+    border:1px solid #000;
+    box-shadow: inset 1px 1px 0 rgba(255,255,255,.25);
+  }
+  .title-actions{ display:flex; gap:6px; align-items:center }
+  .btn95{
+    display:inline-flex; align-items:center; gap:4px; padding:2px 8px; background:var(--face);
+    border-top:2px solid var(--lite); border-left:2px solid var(--lite);
+    border-right:2px solid var(--shadow); border-bottom:2px solid var(--shadow);
+    color:#000; text-decoration:none; font-weight:normal; font-size:12px;
+    cursor:pointer;
+  }
+  .menubar{
+    display:flex; gap:14px; padding:4px 8px; background:var(--face);
+    border-top:1px solid var(--lite); border-bottom:1px solid var(--shadow);
+  }
+  .menubar a{ color:#000; text-decoration:none }
+  .menubar a:hover{ background:#000080; color:#fff; padding:0 2px }
+  .banner{ padding:0; border-top:1px solid var(--lite); border-bottom:1px solid var(--shadow); background:#ffffff }
+  .banner marquee{ padding:4px 8px; color:#000 }
+  .layout{ display:grid; grid-template-columns: 260px 1fr; gap:10px; padding:10px 8px }
+  @media (max-width:900px){ .layout{ grid-template-columns: 1fr } }
+  .group{
+    padding:10px; background:#fff;
+    border:1px solid var(--shadow);
+    box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite);
+  }
+  .legend{
+    display:inline-block; margin-top:-16px; margin-left:6px; padding:0 6px;
+    background:#fff; font-weight:bold;
+  }
+  .nav a{ display:block; padding:3px 4px; color:#000; text-decoration:none }
+  .nav a.active, .nav a:focus{ background:#000080; color:#fff }
+  .nav .folder{ margin:6px 0 2px; font-weight:bold }
+  .vspace{ height:10px }
+  .list{
+    background:#fff; border:1px solid var(--shadow); padding:0;
+    box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite);
+  }
+  table.files{ width:100%; border-collapse: collapse; font-size:13px }
+  .thead{ background:#c0c0c0; border-bottom:1px solid var(--shadow) }
+  .thead th{ text-align:left; padding:5px 8px; border-right:1px solid var(--shadow) }
+  .thead th:last-child{ border-right:none }
+  .row td{ padding:6px 8px; border-top:1px solid #e0e0e0 }
+  .row:hover{ background:#e6e6e6 }
+  .icon-cell{ width:22px }
+  .ico-doc{ width:12px; height:14px; background:#fff; border:1px solid #000; box-shadow: inset 1px 1px 0 #c0c0c0; display:inline-block }
+  .article{
+    background:#fff;
+    border:1px solid var(--shadow);
+    box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite);
+  }
+  .article .toolbar{
+    display:flex; gap:6px; padding:4px; background:var(--face); border-bottom:1px solid var(--shadow)
+  }
+  .tool{
+    display:inline-flex; align-items:center; gap:4px; padding:2px 6px; background:var(--face);
+    border-top:2px solid var(--lite); border-left:2px solid var(--lite);
+    border-right:2px solid var(--shadow); border-bottom:2px solid var(--shadow);
+    font-size:12px;
+  }
+  .pad{ padding:12px; font: 14px/1.5 "Courier New", ui-monospace, monospace; white-space: pre-wrap; min-height: 260px }
+  .statusbar{
+    display:flex; justify-content:space-between; gap:12px; padding:3px 8px; background:var(--face);
+    border-top:1px solid var(--shadow);
+  }
+  /* Modal */
+  .modal { position: fixed; inset:0; background: rgba(0,0,0,.35); display:none; align-items:center; justify-content:center; }
+  .modal .window { background:#fff; border:1px solid var(--shadow); box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite); width: 320px; }
+  .modal .title { background:var(--title); color:#fff; padding:6px 8px; font-weight:bold }
+  .modal .content { padding:10px }
+  .modal .content label{display:block; margin:6px 0 2px}
+  .modal .content input{ width:100%; padding:4px; border:1px solid #808080 }
+  .admin-col { width: 160px; }
+</style>
+</head>
+<body>
+  <header class="site">
+    <div class="titlebar">
+      <div class="title-left">
+        <span class="title-icon" aria-hidden="true"></span>
+        <span>Философия Моли</span>
+      </div>
+      <div class="title-actions">
+        <button id="btn-admin" class="btn95" title="Вход в админку">🛠 Вход</button>
+        <button id="btn-logout" class="btn95" title="Выйти" hidden>⎋ Выйти</button>
+        <div id="time" style="font-weight:normal; margin-left:8px;">--:--</div>
+      </div>
+    </div>
+    <nav class="menubar" aria-label="Меню">
+      <a href="#home" data-nav class="active"><u>Г</u>лавная</a>
+      <a href="#contact" data-nav><u>С</u>вязь</a>
+      <a href="#help" data-nav><u>С</u>правка</a>
+      <a href="#admin" data-nav><u>А</u>дминка</a>
+    </nav>
+    <div class="banner">
+      <marquee behavior="scroll" direction="left" scrollamount="3">Философия Моли — обсуждаем бытие, пока интернет не отвалился.</marquee>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="layout">
+      <aside>
+        <div class="group">
+          <div class="legend">Навигация</div>
+          <div class="nav" id="left-nav">
+            <!-- Сюда рендерятся категории и статьи из Firestore -->
+          </div>
+        </div>
+        <div class="vspace"></div>
+        <div class="group" hidden id="recent-box">
+          <div class="legend">Последние</div>
+          <ul id="recent" style="margin:0; padding-left:18px"></ul>
+        </div>
+      </aside>
+
+      <main>
+        <section id="posts-list" class="list" aria-label="Список записей">
+          <table class="files">
+            <thead class="thead"><tr><th></th><th>Имя</th><th>Изменён</th><th>Тип</th><th>Размер</th><th class="admin-col" id="admin-col-head" hidden>Администрирование</th></tr></thead>
+            <tbody id="files-body">
+              <!-- строки файлов приходят из Firestore -->
+            </tbody>
+          </table>
+        </section>
+
+        <section id="article" class="article" hidden>
+          <div class="toolbar">
+            <a href="#home" class="tool" style="text-decoration:none" data-back id="back-home">← Назад</a>
+            <div class="tool">Файл</div><div class="tool">Правка</div><div class="tool">Формат</div><div class="tool">Справка</div>
+            <button id="btn-del-current" class="tool" style="margin-left:auto; display:none">🗑 Удалить пост</button>
+          </div>
+          <div class="pad" id="pad"></div>
+          <div class="statusbar"><span id="status-left">Готово</span><span id="status-right">Строка 1, Столбец 1</span></div>
+        </section>
+
+        <section id="contact-panel" class="group" hidden>
+          <div class="legend">Связь</div>
+          <p>Почта администратора: <a href="mailto:demienne.moth@gmail.com">demienne.moth@gmail.com</a></p>
+        </section>
+
+        <section id="help-panel" class="group" hidden>
+          <div class="legend">Справка</div>
+          <p>В левой панели — список статей по категориям. Клик по названию открывает статью в «блокноте». Кнопка «Вход» в заголовке открывает окно авторизации администратора.</p>
+        </section>
+
+        <!-- Админ-панель -->
+        <section id="admin-panel" class="group" hidden>
+          <div class="legend">Админка</div>
+          <form id="add-form">
+            <label>Категория</label>
+            <input name="category" placeholder="Напр.: Философия, Космология, Идеи" required>
+            <label>Заголовок</label>
+            <input name="title" placeholder="Заголовок статьи" required>
+            <label>Текст</label>
+            <textarea name="content" rows="25" style="width:100%; font-family:monospace;" placeholder="Текст статьи (поддерживается обычный текст)" required></textarea>
+            <div style="margin-top:8px; display:flex; gap:8px;">
+              <button class="btn95" type="submit">💾 Сохранить</button>
+              <button class="btn95" type="button" id="btn-clear">Очистить</button>
+            </div>
+          </form>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="statusbar"><span id="path">C:\\Home\\</span><span>© 2025 Философия Моли</span></div>
+    </div>
+  </footer>
+
+  <!-- Модалка входа -->
+  <div id="login-modal" class="modal" aria-hidden="true">
+    <div class="window">
+      <div class="title">Вход администратора</div>
+      <div class="content">
+        <form id="login-form">
+          <label>Email</label>
+          <input type="email" name="email" value="demienne.moth@gmail.com" required>
+          <label>Пароль</label>
+          <input type="password" name="password" required>
+          <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end">
+            <button class="btn95" type="button" id="login-cancel">Отмена</button>
+            <button class="btn95" type="submit">Войти</button>
+          </div>
+        </form>
+        <div id="login-error" style="color:#a00; margin-top:6px; display:none"></div>
+      </div>
+    </div>
+  </div>
+
+<script type="module">
+  // Часы
+  const timeEl = document.getElementById('time');
+  function clock(){ const d=new Date(); timeEl.textContent = d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); }
+  setInterval(clock, 1000); clock();
+
+  // Разделы страницы
+  const sections = {
+    posts: document.getElementById('posts-list'),
+    article: document.getElementById('article'),
+    contact: document.getElementById('contact-panel'),
+    help: document.getElementById('help-panel'),
+    admin: document.getElementById('admin-panel')
+  };
+  const pad = document.getElementById('pad');
+  const pathEl = document.getElementById('path');
+  const leftNav = document.getElementById('left-nav');
+  const filesBody = document.getElementById('files-body');
+  const recentBox = document.getElementById('recent-box');
+  const recentList = document.getElementById('recent');
+  const adminColHead = document.getElementById('admin-col-head');
+  const btnDelCurrent = document.getElementById('btn-del-current');
+
+  let isAdmin = false; // обновляется по onAuthStateChanged
+  let currentPostId = null; // для кнопки удаления в статье
+
+  function showOnly(names){
+    for (const key in sections){
+      sections[key].hidden = !names.includes(key);
+    }
+  }
+
+  function openArticle(docId, data){
+    showOnly(['article']);
+    pad.textContent = data.content || '';
+    document.getElementById('status-left').textContent = data.title;
+    pathEl.textContent = 'C:\\Home\\Posts\\' + (docId || 'untitled') + '.txt';
+    currentPostId = docId;
+    // показать админ-кнопку удаления, если админ
+    btnDelCurrent.style.display = isAdmin ? 'inline-flex' : 'none';
+  }
+
+  function route(){
+    const h = location.hash || '#home';
+    document.querySelectorAll('[data-nav]').forEach(n => n.classList.remove('active'));
+    const nav = document.querySelector(`[data-nav][href="${h.startsWith('#post-') ? '#home' : h}"]`);
+    if(nav) nav.classList.add('active');
+
+    if(h === '#home'){ showOnly(['posts']); pathEl.textContent = 'C:\\Home\\Posts\\'; return; }
+    if(h === '#contact'){ showOnly(['contact']); pathEl.textContent = 'C:\\Home\\Contact\\'; return; }
+    if(h === '#help'){ showOnly(['help']); pathEl.textContent = 'C:\\Home\\Help\\'; return; }
+    if(h === '#admin'){ showOnly(['admin']); pathEl.textContent = 'C:\\Home\\Admin\\'; return; }
+    showOnly(['posts']);
+  }
+  window.addEventListener('hashchange', route); route();
+
+  // === Path-based routing helpers ===
+  const BASE = document.querySelector('base')?.getAttribute('href') || '/';
+
+  function injectArticleLD(post){
+    try{
+      document.querySelectorAll('script[data-ld=article]').forEach(n=>n.remove());
+      const ld = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": post.title || "Без названия",
+        "author": { "@type": "Person", "name": "Философия Моли" },
+        "datePublished": post.created?.toDate ? post.created.toDate().toISOString() : new Date().toISOString(),
+        "mainEntityOfPage": location.href
+      };
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.dataset.ld = 'article';
+      s.textContent = JSON.stringify(ld);
+      document.head.appendChild(s);
+    }catch(e){}
+  }
+
+  async function openArticleById(id){
+    try{
+      const snap = await getDoc(doc(db, 'blogPosts', id));
+      if (snap.exists()){
+        const data = snap.data();
+        openArticle(id, data);
+        injectArticleLD(data);
+      } else {
+        showOnly(['posts']);
+        alert('Статья не найдена');
+      }
+    }catch(err){
+      showOnly(['posts']);
+      alert('Ошибка загрузки статьи: ' + (err?.message || err));
+    }
+  }
+
+  function baseJoin(path){ // ensures BASE/subfolder paths
+    if (!BASE.endsWith('/')) return BASE + '/' + path;
+    return BASE + path;
+  }
+
+  function routeByPath(){
+    const base = BASE.endsWith('/') ? BASE.slice(0, -1) : BASE;
+    const path = decodeURI(location.pathname);
+    if (path.startsWith(base + '/post/')){
+      const id = path.slice((base + '/post/').length);
+      if (id) { openArticleById(id); return; }
+    }
+    route();
+  }
+  window.addEventListener('popstate', routeByPath);
+
+
+  // ===== Firebase =====
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+  import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, deleteDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC1ssvZnv2Jd8c5SlFRqPqc0SYt7iPvnm4",
+    authDomain: "quantum-thoughts.firebaseapp.com",
+    projectId: "quantum-thoughts",
+    storageBucket: "quantum-thoughts.firebasestorage.app",
+    messagingSenderId: "174553420596",
+    appId: "1:174553420596:web:9cc3a0f2bb04c6885b8b61"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const POSTS = collection(db, 'blogPosts');
+
+  // Вспомогалки
+  function bytesFromString(s){ return new Blob([s || '']).size; }
+  function formatSize(b){
+    if (b < 1024) return b + ' Б';
+    if (b < 1024*1024) return Math.round(b/1024) + ' КБ';
+    return (b/1024/1024).toFixed(1) + ' МБ';
+  }
+  function formatDate(ts){
+    const d = ts?.toDate ? ts.toDate() : new Date();
+    const pad = n => String(n).padStart(2,'0');
+    return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  // Рендер постов + админ-кнопок
+  const unsub = onSnapshot(query(POSTS, orderBy('created', 'desc')), (snap)=>{
+    const groups = {};
+    filesBody.innerHTML = '';
+    leftNav.innerHTML = '';
+    recentList.innerHTML = '';
+    let recentCount = 0;
+
+    snap.forEach(docSnap=>{
+      const data = docSnap.data();
+      const id = docSnap.id;
+      const cat = (data.category || 'Прочее').trim();
+      (groups[cat] ||= []).push({ id, ...data });
+
+      const tr = document.createElement('tr');
+      tr.className = 'row';
+      tr.innerHTML = `<td class="icon-cell"><span class="ico-doc" aria-hidden="true"></span></td>
+        <td><a href="/post/${id}">${(data.title || 'Без названия')}.txt</a></td>
+        <td>${formatDate(data.created)}</td>
+        <td>Текстовый документ</td>
+        <td>${formatSize(bytesFromString(data.content))}</td>
+        <td class="admin-col" ${isAdmin ? '' : 'hidden'}>
+          <button class="btn95 btn-del" data-id="${id}">🗑 Удалить</button>
+        </td>`;
+      tr.querySelector('a').addEventListener('click', (e)=>{ e.preventDefault(); history.pushState({}, '', baseJoin('post/' + id)); openArticle(id, data); injectArticleLD(data);});
+      filesBody.appendChild(tr);
+
+      if (recentCount < 5){
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = baseJoin('post/' + id);
+        a.textContent = data.title || 'Без названия';
+        a.addEventListener('click', (e)=>{ e.preventDefault(); history.pushState({}, '', baseJoin('post/' + id)); openArticle(id, data); injectArticleLD(data);});
+        li.appendChild(a);
+        recentList.appendChild(li);
+        recentCount++;
+      }
+    });
+
+    adminColHead.hidden = !isAdmin;
+    recentBox.hidden = recentCount === 0;
+
+    // Левое дерево
+    Object.keys(groups).sort().forEach(cat=>{
+      const label = document.createElement('div');
+      label.className = 'folder';
+      label.textContent = '📂 ' + cat;
+      leftNav.appendChild(label);
+
+      groups[cat].forEach(p=>{
+        const a = document.createElement('a');
+        a.href = baseJoin('post/' + p.id);
+        a.textContent = '— ' + (p.title || 'Без названия');
+        a.addEventListener('click', (e)=>{ e.preventDefault(); history.pushState({}, '', baseJoin('post/' + p.id)); openArticle(p.id, p); injectArticleLD(p);});
+        leftNav.appendChild(a);
+      });
+    });
+
+    // навесим обработчики удаления на появившиеся кнопки
+    if (isAdmin){
+      document.querySelectorAll('.btn-del').forEach(btn=>{
+        btn.addEventListener('click', async (e)=>{
+          const id = e.currentTarget.getAttribute('data-id');
+          if (!id) return;
+          if (!confirm('Удалить пост безвозвратно?')) return;
+          try{
+            await deleteDoc(doc(db, 'blogPosts', id));
+            alert('Пост удалён.');
+            if (currentPostId === id) { location.hash = '#home'; route(); }
+          }catch(err){
+            alert('Ошибка удаления: ' + (err?.message || err));
+          }
+        });
+      });
+    }
+  });
+
+  // ===== Админка: вход / выход / права =====
+  const btnAdmin = document.getElementById('btn-admin');
+  const btnLogout = document.getElementById('btn-logout');
+  const loginModal = document.getElementById('login-modal');
+  const loginCancel = document.getElementById('login-cancel');
+  const loginForm = document.getElementById('login-form');
+  const loginError = document.getElementById('login-error');
+
+  btnAdmin.addEventListener('click', ()=>{ loginModal.style.display = 'flex'; loginError.style.display = 'none'; });
+  loginCancel.addEventListener('click', ()=>{ loginModal.style.display = 'none'; });
+  loginForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const email = e.target.email.value.trim();
+    const password = e.target.password.value;
+    try{
+      await signInWithEmailAndPassword(auth, email, password);
+      loginModal.style.display = 'none';
+    }catch(err){
+      loginError.textContent = 'Ошибка входа: ' + (err?.message || err);
+      loginError.style.display = 'block';
+    }
+  });
+  btnLogout.addEventListener('click', ()=> signOut(auth));
+
+  const addForm = document.getElementById('add-form');
+  const btnClear = document.getElementById('btn-clear');
+
+  onAuthStateChanged(auth, (user)=>{
+    isAdmin = !!user && user.email === 'demienne.moth@gmail.com';
+    sections.admin.hidden = !isAdmin;
+    btnLogout.hidden = !isAdmin;
+    btnAdmin.hidden = isAdmin;
+    adminColHead.hidden = !isAdmin;
+    // кнопка удаления в открытой статье
+    btnDelCurrent.style.display = isAdmin && currentPostId ? 'inline-flex' : 'none';
+  });
+
+  addForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(addForm);
+    const data = {
+      category: fd.get('category').toString(),
+      title: fd.get('title').toString(),
+      content: fd.get('content').toString(),
+      created: serverTimestamp()
+    };
+    try{
+      await addDoc(POSTS, data);
+      addForm.reset();
+      alert('Сохранено.');
+    }catch(err){
+      alert('Ошибка: ' + (err?.message || err));
+    }
+  });
+  btnClear.addEventListener('click', ()=> addForm.reset());
+
+  // back to home from article
+  const backHome = document.getElementById('back-home');
+  if (backHome){
+    backHome.addEventListener('click', (e)=>{ e.preventDefault(); history.pushState({}, '', BASE); route(); });
+  }
+
+  // удаление из страницы статьи
+  btnDelCurrent.addEventListener('click', async ()=>{
+    if (!isAdmin || !currentPostId) return;
+    if (!confirm('Удалить этот пост безвозвратно?')) return;
+    try{
+      await deleteDoc(doc(db, 'blogPosts', currentPostId));
+      alert('Пост удалён.');
+      location.hash = '#home';
+      route();
+    }catch(err){
+      alert('Ошибка удаления: ' + (err?.message || err));
+    }
+  });
+</script>
+</body>
+</html>
