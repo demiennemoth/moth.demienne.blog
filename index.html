@@ -135,6 +135,7 @@
       <a href="#home" data-nav class="active"><u>Г</u>лавная</a>
       <a href="#contact" data-nav><u>С</u>вязь</a>
       <a href="#help" data-nav><u>С</u>правка</a>
+      <a href="#admin" data-nav><u>А</u>дминка</a>
     </nav>
     <div class="banner">
       <marquee behavior="scroll" direction="left" scrollamount="3">Философия Моли — обсуждаем бытие, пока интернет не отвалился.</marquee>
@@ -196,7 +197,7 @@
             <label>Заголовок</label>
             <input name="title" placeholder="Заголовок статьи" required>
             <label>Текст</label>
-            <textarea name="content" rows="10" placeholder="Текст статьи (поддерживается обычный текст)" required></textarea>
+            <textarea name="content" rows="25" style="width:100%; font-family:monospace;" placeholder="Текст статьи (поддерживается обычный текст)" required></textarea>
             <div style="margin-top:8px; display:flex; gap:8px;">
               <button class="btn95" type="submit">💾 Сохранить</button>
               <button class="btn95" type="button" id="btn-clear">Очистить</button>
@@ -283,9 +284,10 @@
     const nav = document.querySelector(`[data-nav][href="${h.startsWith('#post-') ? '#home' : h}"]`);
     if(nav) nav.classList.add('active');
 
-    if(h === '#home'){ showOnly(['posts']); pathEl.textContent = 'C:\\Home\\Posts\\'; return; }
-    if(h === '#contact'){ showOnly(['contact']); pathEl.textContent = 'C:\\Home\\Contact\\'; return; }
-    if(h === '#help'){ showOnly(['help']); pathEl.textContent = 'C:\\Home\\Help\\'; return; }
+    if(h === '#home'){ showOnly(['posts']); pathEl.textContent = 'C:\Home\Posts\'; return; }
+    if(h === '#contact'){ showOnly(['contact']); pathEl.textContent = 'C:\Home\Contact\'; return; }
+    if(h === '#help'){ showOnly(['help']); pathEl.textContent = 'C:\Home\Help\'; return; }
+    if(h === '#admin'){ showOnly(['admin']); pathEl.textContent = 'C:\Home\Admin\'; return; }
     showOnly(['posts']);
   }
   window.addEventListener('hashchange', route); route();
