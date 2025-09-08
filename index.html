@@ -52,11 +52,12 @@
   html,body{height:100%}
   body{
     margin:0;
-    background:var(--desktop);
+    /* Фон сайта: чистая картинка, без вуали */
+    background: url('img/bg.jpg') center / cover no-repeat fixed, var(--desktop);
     color:var(--text);
     font:14px/1.4 "MS Sans Serif", Tahoma, Verdana, Segoe UI, Arial, sans-serif;
     -webkit-font-smoothing: none; -moz-osx-font-smoothing: grayscale;
-  }
+}
   a{color:var(--link); text-decoration: underline}
   a:visited{color:var(--visited)}
   .container{ width: min(1080px, 96vw); margin: 12px auto 24px; }
