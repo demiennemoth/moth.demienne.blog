@@ -1,5 +1,4 @@
-// код админки (вход/выход, добавление/удаление)
-// ... полный код перенimport { auth, signInWithEmailAndPassword, onAuthStateChanged, signOut,
+import { auth, signInWithEmailAndPassword, onAuthStateChanged, signOut,
          addDoc, serverTimestamp, onSnapshot, query, orderBy, deleteDoc, doc, POSTS } from './firebase.js';
 
 const btnAdmin = document.getElementById('btn-admin');
@@ -75,4 +74,4 @@ btnDelCurrent.addEventListener('click', async ()=>{
   }catch(err){
     alert('Ошибка удаления: ' + (err?.message || err));
   }
-});есён из index.html ...
+});
