@@ -1,1 +1,108 @@
-/* Все стили перенесены сюда из index.html */
+:root{
+  --desktop:#c0c0c0;
+  --win:#ffffff;
+  --text:#000000;
+  --title:#000080;
+  --shadow:#808080;
+  --dark:#000000;
+  --lite:#ffffff;
+  --face:#c0c0c0;
+  --link:#0000ee;
+  --visited:#551a8b;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: url('images/bg.jpg') center / cover no-repeat fixed, var(--desktop);
+  color:var(--text);
+  font:14px/1.4 "MS Sans Serif", Tahoma, Verdana, Segoe UI, Arial, sans-serif;
+  -webkit-font-smoothing: none; -moz-osx-font-smoothing: grayscale;
+}
+a{color:var(--link); text-decoration: underline}
+a:visited{color:var(--visited)}
+.container{ width: min(1080px, 96vw); margin: 12px auto 24px; }
+header.site{ margin-bottom:8px }
+.titlebar{
+  display:flex; align-items:center; justify-content:space-between; gap:6px;
+  height: 28px; padding:4px 8px;
+  background: var(--title);
+  color:#fff; font-weight:bold;
+}
+.title-left{ display:flex; align-items:center; gap:8px }
+.title-icon{
+  width:18px; height:18px; display:inline-block;
+  background: linear-gradient(#000080, #000040);
+  border:1px solid #000;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.25);
+}
+.title-actions{ display:flex; gap:6px; align-items:center }
+.btn95{
+  display:inline-flex; align-items:center; gap:4px; padding:2px 8px; background:var(--face);
+  border-top:2px solid var(--lite); border-left:2px solid var(--lite);
+  border-right:2px solid var(--shadow); border-bottom:2px solid var(--shadow);
+  color:#000; text-decoration:none; font-weight:normal; font-size:12px;
+  cursor:pointer;
+}
+.menubar{
+  display:flex; gap:14px; padding:4px 8px; background:var(--face);
+  border-top:1px solid var(--lite); border-bottom:1px solid var(--shadow);
+}
+.menubar a{ color:#000; text-decoration:none }
+.menubar a:hover{ background:#000080; color:#fff; padding:0 2px }
+.banner{ padding:0; border-top:1px solid var(--lite); border-bottom:1px solid var(--shadow); background:#ffffff }
+.banner marquee{ padding:4px 8px; color:#000 }
+.layout{ display:grid; grid-template-columns: 260px 1fr; gap:10px; padding:10px 8px }
+@media (max-width:900px){ .layout{ grid-template-columns: 1fr } }
+.group{
+  padding:10px; background:#fff;
+  border:1px solid var(--shadow);
+  box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite);
+}
+.legend{
+  display:inline-block; margin-top:-16px; margin-left:6px; padding:0 6px;
+  background:#fff; font-weight:bold;
+}
+.nav a{ display:block; padding:3px 4px; color:#000; text-decoration:none }
+.nav a.active, .nav a:focus{ background:#000080; color:#fff }
+.nav .folder{ margin:6px 0 2px; font-weight:bold }
+.vspace{ height:10px }
+.list{
+  background:#fff; border:1px solid var(--shadow); padding:0;
+  box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite);
+}
+table.files{ width:100%; border-collapse: collapse; font-size:13px }
+.thead{ background:#c0c0c0; border-bottom:1px solid var(--shadow) }
+.thead th{ text-align:left; padding:5px 8px; border-right:1px solid var(--shadow) }
+.thead th:last-child{ border-right:none }
+.row td{ padding:6px 8px; border-top:1px solid #e0e0e0 }
+.row:hover{ background:#e6e6e6 }
+.icon-cell{ width:22px }
+.ico-doc{ width:12px; height:14px; background:#fff; border:1px solid #000; box-shadow: inset 1px 1px 0 #c0c0c0; display:inline-block }
+.article{
+  background:#fff;
+  border:1px solid var(--shadow);
+  box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite);
+}
+.article .toolbar{
+  display:flex; gap:6px; padding:4px; background:var(--face); border-bottom:1px solid var(--shadow)
+}
+.tool{
+  display:inline-flex; align-items:center; gap:4px; padding:2px 6px; background:var(--face);
+  border-top:2px solid var(--lite); border-left:2px solid var(--lite);
+  border-right:2px solid var(--shadow); border-bottom:2px solid var(--shadow);
+  font-size:12px;
+}
+.pad{ padding:12px; font: 14px/1.5 "Courier New", ui-monospace, monospace; white-space: pre-wrap; min-height: 260px }
+.statusbar{
+  display:flex; justify-content:space-between; gap:12px; padding:3px 8px; background:var(--face);
+  border-top:1px solid var(--shadow);
+}
+/* Modal */
+.modal { position: fixed; inset:0; background: rgba(0,0,0,.35); display:none; align-items:center; justify-content:center; }
+.modal .window { background:#fff; border:1px solid var(--shadow); box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite); width: 320px; }
+.modal .title { background:var(--title); color:#fff; padding:6px 8px; font-weight:bold }
+.modal .content { padding:10px }
+.modal .content label{display:block; margin:6px 0 2px}
+.modal .content input{ width:100%; padding:4px; border:1px solid #808080 }
+.admin-col { width: 160px; }
