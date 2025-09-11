@@ -1,5 +1,6 @@
+// admin.js — авторизация, добавление постов, удаление из статьи
 import { auth, signInWithEmailAndPassword, onAuthStateChanged, signOut,
-         addDoc, serverTimestamp, onSnapshot, query, orderBy, deleteDoc, doc, POSTS } from './firebase.js';
+         addDoc, serverTimestamp, deleteDoc, doc, POSTS } from './firebase.js';
 
 const btnAdmin = document.getElementById('btn-admin');
 const btnLogout = document.getElementById('btn-logout');
@@ -10,17 +11,13 @@ const loginError = document.getElementById('login-error');
 const addForm = document.getElementById('add-form');
 const btnClear = document.getElementById('btn-clear');
 const btnDelCurrent = document.getElementById('btn-del-current');
-const adminColHead = document.getElementById('admin-col-head');
-const sections = {
-  admin: document.getElementById('admin-panel')
-};
-const pad = document.getElementById('pad');
-const pathEl = document.getElementById('path');
+const adminPanel = document.getElementById('admin-panel');
+
 let isAdmin = false;
-let currentPostId = null;
 
 btnAdmin.addEventListener('click', ()=>{ loginModal.style.display = 'flex'; loginError.style.display = 'none'; });
 loginCancel.addEventListener('click', ()=>{ loginModal.style.display = 'none'; });
+
 loginForm.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const email = e.target.email.value.trim();
@@ -37,21 +34,22 @@ btnLogout.addEventListener('click', ()=> signOut(auth));
 
 onAuthStateChanged(auth, (user)=>{
   isAdmin = !!user && user.email === 'demienne.moth@gmail.com';
-  sections.admin.hidden = !isAdmin;
+  adminPanel.hidden = !isAdmin;
   btnLogout.hidden = !isAdmin;
   btnAdmin.hidden = isAdmin;
-  adminColHead.hidden = !isAdmin;
-  btnDelCurrent.style.display = isAdmin && currentPostId ? 'inline-flex' : 'none';
+  // Сообщаем main.js о смене статуса
+  window.dispatchEvent(new CustomEvent('auth:state', { detail:{ isAdmin } }));
 });
 
-addForm.addEventListener('submit', async (e)=>{
+// Создание поста
+addForm?.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const fd = new FormData(addForm);
   const data = {
-    category: fd.get('category').toString(),
-    title: fd.get('title').toString(),
-    content: fd.get('content').toString(),
-    created: serverTimestamp()
+    category: String(fd.get('category') || '').trim() || 'Прочее',
+    title: String(fd.get('title') || '').trim() || 'Без названия',
+    content: String(fd.get('content') || ''),
+    created: serverTimestamp(),
   };
   try{
     await addDoc(POSTS, data);
@@ -61,16 +59,18 @@ addForm.addEventListener('submit', async (e)=>{
     alert('Ошибка: ' + (err?.message || err));
   }
 });
-btnClear.addEventListener('click', ()=> addForm.reset());
+btnClear?.addEventListener('click', ()=> addForm.reset());
 
-btnDelCurrent.addEventListener('click', async ()=>{
-  if (!isAdmin || !currentPostId) return;
+// Удаление из открытой статьи
+btnDelCurrent?.addEventListener('click', async ()=>{
+  if (!isAdmin) return;
+  const id = window.getCurrentPostId ? window.getCurrentPostId() : null;
+  if (!id) return;
   if (!confirm('Удалить этот пост безвозвратно?')) return;
   try{
-    await deleteDoc(doc(POSTS, currentPostId));
+    await deleteDoc(doc(POSTS, id));
     alert('Пост удалён.');
     location.hash = '#home';
-    location.reload();
   }catch(err){
     alert('Ошибка удаления: ' + (err?.message || err));
   }
