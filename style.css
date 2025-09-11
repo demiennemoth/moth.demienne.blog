@@ -1,12 +1,12 @@
 :root{
-  --desktop:#c0c0c0;
-  --win:#ffffff;
-  --text:#000000;
-  --title:#000080;
-  --shadow:#808080;
+  --desktop:#c0c0c0;   /* серый рабочий стол Win95 */
+  --win:#ffffff;       /* белые окна */
+  --text:#000000;      /* чёрный текст */
+  --title:#000080;     /* тёмно-синий бар */
+  --shadow:#808080;    /* тени серые */
   --dark:#000000;
   --lite:#ffffff;
-  --face:#c0c0c0;
+  --face:#c0c0c0;      /* цвет панели и кнопок */
   --link:#0000ee;
   --visited:#551a8b;
 }
@@ -14,14 +14,33 @@
 html,body{height:100%}
 body{
   margin:0;
+  /* Фон-картинка + лёгкий шум поверх для "состаривания" */
   background: url('images/bg.jpg') center / cover no-repeat fixed, var(--desktop);
   color:var(--text);
   font:14px/1.4 "MS Sans Serif", Tahoma, Verdana, Segoe UI, Arial, sans-serif;
   -webkit-font-smoothing: none; -moz-osx-font-smoothing: grayscale;
 }
+/* Гранулированный шум поверх страницы */
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none;
+  opacity:.08;
+  background-image:url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>\
+  <filter id='n'>\
+    <feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch' />\
+  </filter>\
+  <rect width='100%' height='100%' filter='url(%23n)' opacity='0.35' />\
+</svg>");
+  background-size:140px 140px;
+  mix-blend-mode:multiply;
+  z-index:0;
+}
 a{color:var(--link); text-decoration: underline}
 a:visited{color:var(--visited)}
-.container{ width: min(1080px, 96vw); margin: 12px auto 24px; }
+
+.container{ width: min(1080px, 96vw); margin: 12px auto 24px; position: relative; z-index:1; }
+
 header.site{ margin-bottom:8px }
 .titlebar{
   display:flex; align-items:center; justify-content:space-between; gap:6px;
@@ -37,6 +56,16 @@ header.site{ margin-bottom:8px }
   box-shadow: inset 1px 1px 0 rgba(255,255,255,.25);
 }
 .title-actions{ display:flex; gap:6px; align-items:center }
+
+/* Верхнее меню — тоже синее, как на скрине */
+.menubar{
+  display:flex; gap:14px; padding:4px 8px;
+  background: var(--title);
+  border-top:1px solid #001050; border-bottom:1px solid #001050;
+}
+.menubar a{ color:#fff; text-decoration:none; padding:0 2px }
+.menubar a:hover{ background:#fff; color:var(--title) }
+
 .btn95{
   display:inline-flex; align-items:center; gap:4px; padding:2px 8px; background:var(--face);
   border-top:2px solid var(--lite); border-left:2px solid var(--lite);
@@ -44,43 +73,50 @@ header.site{ margin-bottom:8px }
   color:#000; text-decoration:none; font-weight:normal; font-size:12px;
   cursor:pointer;
 }
-.menubar{
-  display:flex; gap:14px; padding:4px 8px; background:var(--face);
-  border-top:1px solid var(--lite); border-bottom:1px solid var(--shadow);
-}
-.menubar a{ color:#000; text-decoration:none }
-.menubar a:hover{ background:#000080; color:#fff; padding:0 2px }
-.banner{ padding:0; border-top:1px solid var(--lite); border-bottom:1px solid var(--shadow); background:#ffffff }
-.banner marquee{ padding:4px 8px; color:#000 }
+
+/* Макет */
 .layout{ display:grid; grid-template-columns: 260px 1fr; gap:10px; padding:10px 8px }
 @media (max-width:900px){ .layout{ grid-template-columns: 1fr } }
+
+/* Группы/окна */
 .group{
-  padding:10px; background:#fff;
+  padding:10px; background:var(--win);
   border:1px solid var(--shadow);
   box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite);
+  position: relative;
 }
+/* Синие заголовки секций как на скрине */
 .legend{
-  display:inline-block; margin-top:-16px; margin-left:6px; padding:0 6px;
-  background:#fff; font-weight:bold;
+  display:block;
+  margin:-10px -10px 8px;
+  padding:6px 8px;
+  background: var(--title);
+  color:#fff;
+  font-weight:bold;
+  border-bottom:1px solid #001050;
 }
 .nav a{ display:block; padding:3px 4px; color:#000; text-decoration:none }
 .nav a.active, .nav a:focus{ background:#000080; color:#fff }
 .nav .folder{ margin:6px 0 2px; font-weight:bold }
 .vspace{ height:10px }
+
+/* Таблица файлов */
 .list{
-  background:#fff; border:1px solid var(--shadow); padding:0;
+  background:var(--win); border:1px solid var(--shadow); padding:0;
   box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite);
 }
 table.files{ width:100%; border-collapse: collapse; font-size:13px }
-.thead{ background:#c0c0c0; border-bottom:1px solid var(--shadow) }
-.thead th{ text-align:left; padding:5px 8px; border-right:1px solid var(--shadow) }
+.thead{ background: var(--title); border-bottom:1px solid #001050; }
+.thead th{ color:#fff; text-align:left; padding:5px 8px; border-right:1px solid #001050 }
 .thead th:last-child{ border-right:none }
 .row td{ padding:6px 8px; border-top:1px solid #e0e0e0 }
 .row:hover{ background:#e6e6e6 }
 .icon-cell{ width:22px }
 .ico-doc{ width:12px; height:14px; background:#fff; border:1px solid #000; box-shadow: inset 1px 1px 0 #c0c0c0; display:inline-block }
+
+/* Статья */
 .article{
-  background:#fff;
+  background:var(--win);
   border:1px solid var(--shadow);
   box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite);
 }
@@ -98,7 +134,8 @@ table.files{ width:100%; border-collapse: collapse; font-size:13px }
   display:flex; justify-content:space-between; gap:12px; padding:3px 8px; background:var(--face);
   border-top:1px solid var(--shadow);
 }
-/* Modal */
+
+/* Модалка */
 .modal { position: fixed; inset:0; background: rgba(0,0,0,.35); display:none; align-items:center; justify-content:center; }
 .modal .window { background:#fff; border:1px solid var(--shadow); box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite); width: 320px; }
 .modal .title { background:var(--title); color:#fff; padding:6px 8px; font-weight:bold }
