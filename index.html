@@ -4,14 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ФИЛОСОФИЯ МОЛИ / Моль Демьен</title>
-  <meta name="description" content="Философия Моли — теории, мысли, философия, рассуждения о бытии в стиле Windows 95.">
+  <meta name="description" content="Философия Моли — теории, мысли, рассуждения о бытии в стиле Windows 95.">
+  <link rel="canonical" href="https://demiennemoth.github.io/moth.demienne.blog/">
+  <meta name="theme-color" content="#c0c0c0">
+
   <link rel="stylesheet" href="style.css">
 
-  <!-- Firebase SDK -->
+  <!-- Firebase module (exports auth/db/helpers) -->
   <script type="module" src="firebase.js"></script>
-  <!-- Основной код -->
+  <!-- App logic -->
   <script type="module" src="main.js"></script>
-  <!-- Админка -->
+  <!-- Admin helpers -->
   <script type="module" src="admin.js"></script>
 </head>
 <body>
@@ -105,5 +108,25 @@
       <div class="statusbar"><span id="path">C:\Home\</span><span>© 2025 Философия Моли</span></div>
     </div>
   </footer>
+
+  <!-- Модалка входа (нужна admin.js) -->
+  <div id="login-modal" class="modal" aria-hidden="true">
+    <div class="window">
+      <div class="title">Вход администратора</div>
+      <div class="content">
+        <form id="login-form">
+          <label>Email</label>
+          <input type="email" name="email" value="demienne.moth@gmail.com" required>
+          <label>Пароль</label>
+          <input type="password" name="password" required>
+          <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end">
+            <button class="btn95" type="button" id="login-cancel">Отмена</button>
+            <button class="btn95" type="submit">Войти</button>
+          </div>
+        </form>
+        <div id="login-error" style="color:#a00; margin-top:6px; display:none"></div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
