@@ -1,4 +1,4 @@
 Contact: mailto:demienne.moth@gmail.com
 Expires: 2026-09-07
-Policy: https://YOUR_DOMAIN/help
-Acknowledgments: https://YOUR_DOMAIN/humans.txt
+Policy: https://demiennemoth.github.io/moth.demienne.blog/#help
+Acknowledgments: https://demiennemoth.github.io/moth.demienne.blog/humans.txt
