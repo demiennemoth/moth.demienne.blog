@@ -3,4 +3,4 @@ Allow: /
 # Если позже сделаешь путь /admin (без #), то лучше закрыть его от индексации:
 Disallow: /admin
 
-Sitemap: Sitemap: https://demiennemoth.github.io/moth.demienne.blog/sitemap.xml
+Sitemap: https://demiennemoth.github.io/moth.demienne.blog/sitemap.xml
