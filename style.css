@@ -139,3 +139,10 @@ table.files{ width:100%; border-collapse: collapse; font-size:13px }
 .modal .content label{display:block; margin:6px 0 2px}
 .modal .content input{ width:100%; padding:4px; border:1px solid #808080 }
 .admin-col { width: 160px; }
+
+
+/* --- Fix: align 'Список файлов' legend width with its window --- */
+.list .legend{
+  margin: 0;           /* cancel negative margins from generic .legend */
+  padding: 6px 8px;    /* keep consistent interior spacing */
+}
