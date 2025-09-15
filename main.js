@@ -26,6 +26,9 @@ const btnDelCurrent = document.getElementById('btn-del-current');
 let isAdmin = false;
 let currentPostId = null;
 
+// Кэш постов для маршрутизации по #post-<id>
+const postsCache = new Map();
+
 function showOnly(names){
   for (const key in sections){ sections[key].hidden = !names.includes(key); }
 }
@@ -34,15 +37,25 @@ function openArticle(docId, data){
   pad.textContent = data.content || '';
   document.getElementById('status-left').textContent = data.title || '';
   pathEl.textContent = 'C:\\Home\\Posts\\' + (docId || 'untitled') + '.txt';
-  location.hash = '#post-' + docId;
-  currentPostId = docId;
+  if (location.hash !== '#post-' + docId) location.hash = '#post-' + docId;
+currentPostId = docId;
   // сделаем доступным для админки
   window.currentPostId = currentPostId;
   btnDelCurrent.style.display = isAdmin ? 'inline-flex' : 'none';
 }
 function route(){
   const h = location.hash || '#home';
-  document.querySelectorAll('[data-nav]').forEach(n => n.classList.remove('active'));
+  
+  // Обработка прямых ссылок на посты: #post-<id>
+  if (h.startsWith('#post-')){
+    const id = h.slice(6);
+    const data = postsCache.get(id);
+    if (data){ openArticle(id, data); return; }
+    // если кэш ещё не готов — временно показываем список
+    showOnly(['posts']);
+    return;
+  }
+document.querySelectorAll('[data-nav]').forEach(n => n.classList.remove('active'));
   const nav = document.querySelector(`[data-nav][href="${h.startsWith('#post-') ? '#home' : h}"]`);
   if(nav) nav.classList.add('active');
   if(h === '#home'){ showOnly(['posts']); pathEl.textContent = 'C:\\Home\\Posts\\'; return; }
@@ -68,6 +81,8 @@ function refreshAdminUI(){
 
 // Подписка на посты
 onSnapshot(query(POSTS, orderBy('created','desc')), (snap)=>{
+  // обновляем кэш перед перерисовкой
+  postsCache.clear();
   const groups = {};
   filesBody.innerHTML = '';
   leftNav.innerHTML = '';
@@ -76,7 +91,9 @@ onSnapshot(query(POSTS, orderBy('created','desc')), (snap)=>{
 
   snap.forEach(docSnap=>{
     const data = docSnap.data();
-    const id = docSnap.id;
+  const id = docSnap.id;
+  // кладём данные в кэш для мгновенного открытия по якорю
+  postsCache.set(id, data);
     const cat = (data.category || 'Прочее').trim();
     (groups[cat] ||= []).push({ id, ...data });
 
@@ -132,12 +149,26 @@ onSnapshot(query(POSTS, orderBy('created','desc')), (snap)=>{
       });
     });
   }
+  
+  // если при загрузке есть якорь на пост — открываем теперь, когда кэш готов
+  if (location.hash && location.hash.startsWith('#post-')){
+    const id = location.hash.slice(6);
+    const data2 = postsCache.get(id);
+    if (data2) openArticle(id, data2);
+  }
   refreshAdminUI();
 });
 
 // Получаем статус админа из admin.js через кастомное событие
 window.addEventListener('auth:state', (e)=>{
   isAdmin = !!e.detail?.isAdmin;
+  
+  // если при загрузке есть якорь на пост — открываем теперь, когда кэш готов
+  if (location.hash && location.hash.startsWith('#post-')){
+    const id = location.hash.slice(6);
+    const data2 = postsCache.get(id);
+    if (data2) openArticle(id, data2);
+  }
   refreshAdminUI();
 });
 
