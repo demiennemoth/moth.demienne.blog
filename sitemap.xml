@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>Sitemap: https://demiennemoth.github.io/moth.demienne.blog/sitemap.xml</loc>
+    <loc>https://demiennemoth.github.io/moth.demienne.blog/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-  <!-- ВНИМАНИЕ: #post-... ссылки не попадают в sitemap.
+  <!-- ВНИМАНИЕ: динамические записи открываются через #post-... и не попадают в sitemap.
        Если перейдёшь на адреса вида /post/ID — добавляй их сюда. -->
 </urlset>
