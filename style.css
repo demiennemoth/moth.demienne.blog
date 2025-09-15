@@ -2,7 +2,7 @@
   --desktop:#c0c0c0;   /* серый рабочий стол Win95 */
   --win:#ffffff;       /* белые окна */
   --text:#000000;      /* чёрный текст */
-  --title:#000080;     /* тёмно-синий бар */
+  --title:#001a66;     /* тёмно-синий бар */
   --shadow:#808080;    /* тени серые */
   --dark:#000000;
   --lite:#ffffff;
@@ -51,20 +51,16 @@ header.site{ margin-bottom:8px }
 .title-left{ display:flex; align-items:center; gap:8px }
 .title-icon{
   width:18px; height:18px; display:inline-block;
-  background: linear-gradient(#000080, #000040);
+  background: linear-gradient(#001a66, #000033);
   border:1px solid #000;
   box-shadow: inset 1px 1px 0 rgba(255,255,255,.25);
 }
 .title-actions{ display:flex; gap:6px; align-items:center }
 
 /* Верхнее меню — тоже синее, как на скрине */
-.menubar{
-  display:flex; gap:14px; padding:4px 8px;
-  background: var(--title);
-  border-top:1px solid #001050; border-bottom:1px solid #001050;
-}
-.menubar a{ color:#fff; text-decoration:none; padding:0 2px }
-.menubar a:hover{ background:#fff; color:var(--title) }
+.menubar{ display:flex; gap:14px; padding:4px 8px; background: var(--face); border-top:1px solid var(--lite); border-bottom:1px solid var(--shadow);}
+.menubar a{ color:#000; text-decoration:none; padding:0 2px }
+.menubar a:hover{ background: var(--title); color:#fff }
 
 .btn95{
   display:inline-flex; align-items:center; gap:4px; padding:2px 8px; background:var(--face);
@@ -96,7 +92,7 @@ header.site{ margin-bottom:8px }
   border-bottom:1px solid #001050;
 }
 .nav a{ display:block; padding:3px 4px; color:#000; text-decoration:none }
-.nav a.active, .nav a:focus{ background:#000080; color:#fff }
+.nav a.active, .nav a:focus{ background:#001a66; color:#fff }
 .nav .folder{ margin:6px 0 2px; font-weight:bold }
 .vspace{ height:10px }
 
@@ -106,8 +102,8 @@ header.site{ margin-bottom:8px }
   box-shadow: inset -1px -1px 0 var(--shadow), inset 1px 1px 0 var(--lite);
 }
 table.files{ width:100%; border-collapse: collapse; font-size:13px }
-.thead{ background: var(--title); border-bottom:1px solid #001050; }
-.thead th{ color:#fff; text-align:left; padding:5px 8px; border-right:1px solid #001050 }
+.thead{ background: var(--face); border-bottom:1px solid #9a9a9a; }
+.thead th{ color:#000; text-align:left; padding:5px 8px; border-right:1px solid #c0c0c0 }
 .thead th:last-child{ border-right:none }
 .row td{ padding:6px 8px; border-top:1px solid #e0e0e0 }
 .row:hover{ background:#e6e6e6 }
