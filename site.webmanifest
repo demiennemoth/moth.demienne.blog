@@ -1,10 +1,14 @@
 {
-  "name": "Философия Моли",
-  "short_name": "Моли",
+  "name": "ФИЛОСОФИЯ МОЛИ / Моль Демьен",
+  "short_name": "Философия Моли",
+  "description": null,
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#c0c0c0",
   "theme_color": "#000080",
+  "lang": "ru",
+  "dir": "ltr",
   "icons": [
     {
       "src": "/icons/icon-192.png",
