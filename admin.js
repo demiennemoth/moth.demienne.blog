@@ -98,8 +98,7 @@ if (addForm){
         addForm.reset();
         alert('Сохранено.');
       }
-      alert('Сохранено.');
-    }catch(err){
+      }catch(err){
       alert('Ошибка: ' + (err?.message || err));
     }
   });
