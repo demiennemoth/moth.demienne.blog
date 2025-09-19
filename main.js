@@ -1,5 +1,4 @@
 // main.js — рендер постов, навигация, синхронизация с админкой
-"use strict";
 import { POSTS, onSnapshot, query, orderBy, doc, deleteDoc } from './firebase.js';
 
 // Часы
@@ -23,6 +22,7 @@ const recentBox = document.getElementById('recent-box');
 const recentList = document.getElementById('recent');
 const adminColHead = document.getElementById('admin-col-head');
 const btnDelCurrent = document.getElementById('btn-del-current');
+const btnEditCurrent = document.getElementById('btn-edit-current');
 
 let isAdmin = false;
 let currentPostId = null;
@@ -47,7 +47,7 @@ function openArticle(docId, data){
 }
 function route(){
   const h = location.hash || '#home';
-
+  
   // Обработка прямых ссылок на посты: #post-<id>
   if (h.startsWith('#post-')){
     const id = h.slice(6);
@@ -79,6 +79,7 @@ function formatDate(ts){
 function refreshAdminUI(){
   if (adminColHead) adminColHead.hidden = !isAdmin;
   if (btnDelCurrent) btnDelCurrent.style.display = isAdmin && currentPostId ? 'inline-flex' : 'none';
+  if (btnEditCurrent) btnEditCurrent.style.display = isAdmin && currentPostId ? 'inline-flex' : 'none';
   if (recentBox) recentBox.hidden = (recentList && recentList.children.length === 0);
 }
 
@@ -156,7 +157,7 @@ onSnapshot(query(POSTS, orderBy('created','desc')), (snap)=>{
       });
     });
   }
-
+  
   // если при загрузке есть якорь на пост — открываем теперь, когда кэш готов
   if (location.hash && location.hash.startsWith('#post-')){
     const id = location.hash.slice(6);
