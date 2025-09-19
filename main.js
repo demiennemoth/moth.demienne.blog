@@ -43,7 +43,8 @@ function openArticle(docId, data){
   currentPostId = docId;
   // сделаем доступным для админки
   window.currentPostId = currentPostId;
-  if (btnDelCurrent) btnDelCurrent.style.display = isAdmin ? 'inline-flex' : 'none';
+  \1
+  if (btnEditCurrent) btnEditCurrent.style.display = isAdmin ? 'inline-flex' : 'none';
 }
 function route(){
   const h = location.hash || '#home';
