@@ -1,6 +1,6 @@
 // admin.js — авторизация, добавление постов, удаление из статьи
 import { auth, signInWithEmailAndPassword, onAuthStateChanged, signOut,
-         addDoc, serverTimestamp, deleteDoc, doc, POSTS } from './firebase.js';
+         addDoc, serverTimestamp, deleteDoc, doc, updateDoc, getDoc, POSTS } from './firebase.js';
 
 const btnAdmin = document.getElementById('btn-admin');
 const btnLogout = document.getElementById('btn-logout');
@@ -11,6 +11,8 @@ const loginError = document.getElementById('login-error');
 const addForm = document.getElementById('add-form');
 const btnClear = document.getElementById('btn-clear');
 const btnDelCurrent = document.getElementById('btn-del-current');
+const btnEditCurrent = document.getElementById('btn-edit-current');
+const editIdInput = document.getElementById('edit-post-id');
 const adminPanel = document.getElementById('admin-panel');
 
 let isAdmin = false;
@@ -48,6 +50,33 @@ onAuthStateChanged(auth, (user)=>{
   window.dispatchEvent(new CustomEvent('auth:state', { detail:{ isAdmin } }));
 });
 
+
+// Режим редактирования
+async function enterEditMode(id){
+  if (!addForm || !id) return;
+  try{
+    const snap = await getDoc(doc(POSTS, id));
+    if (!snap.exists()) { alert('Пост не найден'); return; }
+    const data = snap.data();
+    addForm.category.value = data.category || '';
+    addForm.title.value = data.title || '';
+    addForm.content.value = data.content || '';
+    if (editIdInput) editIdInput.value = id;
+    // Поменять подписи
+    const submitBtn = addForm.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.textContent = '💾 Сохранить изменения';
+    location.hash = '#admin';
+    alert('Редактирование: ' + (data.title || id));
+  }catch(err){
+    alert('Ошибка загрузки для редактирования: ' + (err?.message || err));
+  }
+}
+function exitEditMode(){
+  if (!addForm) return;
+  if (editIdInput) editIdInput.value = '';
+  const submitBtn = addForm.querySelector('button[type="submit"]');
+  if (submitBtn) submitBtn.textContent = '💾 Сохранить';
+}
 // Создание поста
 if (addForm){
   addForm.addEventListener('submit', async (e)=>{
@@ -60,15 +89,22 @@ if (addForm){
       created: serverTimestamp(),
     };
     try{
-      await addDoc(POSTS, data);
-      addForm.reset();
+      if (editIdInput && editIdInput.value){
+        await updateDoc(doc(POSTS, editIdInput.value), { category: data.category, title: data.title, content: data.content, updated: serverTimestamp() });
+        exitEditMode();
+        alert('Изменения сохранены.');
+      } else {
+        await addDoc(POSTS, data);
+        addForm.reset();
+        alert('Сохранено.');
+      }
       alert('Сохранено.');
     }catch(err){
       alert('Ошибка: ' + (err?.message || err));
     }
   });
 }
-if (btnClear && addForm){ btnClear.addEventListener('click', ()=> addForm.reset()); }
+if (btnClear && addForm){ btnClear.addEventListener('click', ()=> { addForm.reset(); exitEditMode(); }); }
 
 // Удаление из открытой статьи
 if (btnDelCurrent){
