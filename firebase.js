@@ -16,7 +16,4 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const POSTS = collection(db, 'blogPosts');
 
-export {
-  signInWithEmailAndPassword, onAuthStateChanged, signOut,
-  addDoc, serverTimestamp, onSnapshot, query, orderBy, deleteDoc, doc
-};
+export { signInWithEmailAndPassword, onAuthStateChanged, signOut, addDoc, serverTimestamp, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc, getDoc };
