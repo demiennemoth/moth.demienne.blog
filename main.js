@@ -1,4 +1,5 @@
 // main.js — рендер постов, навигация, синхронизация с админкой
+"use strict";
 import { POSTS, onSnapshot, query, orderBy, doc, deleteDoc } from './firebase.js';
 
 // Часы
@@ -46,7 +47,7 @@ function openArticle(docId, data){
 }
 function route(){
   const h = location.hash || '#home';
-  
+
   // Обработка прямых ссылок на посты: #post-<id>
   if (h.startsWith('#post-')){
     const id = h.slice(6);
@@ -155,7 +156,7 @@ onSnapshot(query(POSTS, orderBy('created','desc')), (snap)=>{
       });
     });
   }
-  
+
   // если при загрузке есть якорь на пост — открываем теперь, когда кэш готов
   if (location.hash && location.hash.startsWith('#post-')){
     const id = location.hash.slice(6);
