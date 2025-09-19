@@ -67,6 +67,7 @@
           <div class="toolbar">
             <a href="#home" class="tool" style="text-decoration:none" data-back>← Назад</a>
             <div class="tool">Файл</div><div class="tool">Правка</div><div class="tool">Формат</div><div class="tool">Справка</div>
+            <button <button id="btn-edit-current" class="tool" style="display:none">✎ Редактировать</button>
             <button id="btn-del-current" class="tool" style="margin-left:auto; display:none">🗑 Удалить пост</button>
           </div>
           <div class="pad" id="pad"></div>
@@ -87,6 +88,7 @@
         <section id="admin-panel" class="group" hidden>
           <div class="legend">Админка</div>
           <form id="add-form">
+            <input type="hidden" name="id" id="edit-post-id">
             <label>Категория</label>
             <input name="category" placeholder="Напр.: Философия, Космология, Идеи" required>
             <label>Заголовок</label>
