@@ -121,3 +121,14 @@ if (btnDelCurrent){
     }
   });
 }
+
+
+/* Редактировать текущий пост */
+if (btnEditCurrent){
+  btnEditCurrent.addEventListener('click', async ()=>{
+    if (!isAdmin) return;
+    const id = window.getCurrentPostId ? window.getCurrentPostId() : null;
+    if (!id){ alert('Сначала открой пост'); return; }
+    await enterEditMode(id);
+  });
+}
